@@ -237,11 +237,8 @@ export default function EventsPage() {
               onClick={() => handleEventClick(filteredEvents[0])}
               className="group relative cursor-pointer max-w-6xl w-full"
             >
-              {/* Glowing aura effect */}
-              {/* <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 via-cyan-500/20 to-emerald-500/20 rounded-3xl blur-3xl group-hover:blur-2xl transition-all duration-700 animate-pulse"></div> */}
-              
               {/* Main card container */}
-              <div className="relative   to-gray-900/90 backdrop-blur-xl border border-emerald-500/30 rounded-3xl overflow-hidden  group-hover:border-emerald-400/60 group-hover:shadow-emerald-500/20  transition-all duration-700">
+              <div className="relative to-gray-900/90 backdrop-blur-xl border border-emerald-500/30 rounded-3xl overflow-hidden group-hover:border-emerald-400/60 group-hover:shadow-emerald-500/20 transition-all duration-700">
                 
                 {/* Animated corner accents */}
                 <div className="absolute top-0 left-0 w-32 h-32 border-t-2 border-l-2 border-emerald-400/60 rounded-tl-3xl group-hover:w-40 group-hover:h-40 transition-all duration-500"></div>
@@ -346,38 +343,135 @@ export default function EventsPage() {
         <div className="absolute left-1/2 top-186 bottom-0 w-1 bg-gradient-to-b from-emerald-400 via-emerald-300 to-emerald-500 opacity-60 transform -translate-x-1/2"></div>
 
         {/* Timeline Events */}
-        <div className="space-y-24 mt-16">
+        <div className="space-y-32 mt-16">
           {filteredEvents.slice(1).map((event, index) => (
             <div
               key={event.id || index}
               onClick={() => handleEventClick(event)}
-              className={`group relative cursor-pointer ${index % 2 === 0 ? 'flex justify-start slide-in-left' : 'flex justify-end slide-in-right'}`}
+              className={`group relative cursor-pointer ${index % 2 === 0 ? 'flex justify-start' : 'flex justify-end'}`}
             >
-              <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-emerald-400 rounded-full border-4 border-black group-hover:scale-150 transition-all duration-300 z-20 journey-node shadow-lg"></div>
+              {/* Timeline Node with Pulsing Effect */}
+              <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-emerald-400 rounded-full animate-ping opacity-75"></div>
+                  <div className={`relative w-6 h-6 rounded-full border-4 border-black group-hover:scale-125 transition-all duration-300 shadow-lg ${
+                    event.timeInfo.isUpcoming ? 'bg-emerald-400 shadow-emerald-400/50' : 'bg-gray-500 shadow-gray-500/50'
+                  }`}></div>
+                </div>
+              </div>
 
-              <div className={`relative max-w-lg ${index % 2 === 0 ? 'mr-auto pr-16' : 'ml-auto pl-16'}`}>
-                <div className="relative p-6 hover:scale-105 transition-all duration-500">
-                  <div className="w-64 h-64 bg-gray-800 rounded-2xl overflow-hidden shadow-xl mb-4">
-                    <img
-                      src={event.image || event.images?.[0]}
-                      alt={event.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                  </div>
+              {/* Card Container */}
+              <div className={`relative max-w-xl w-full ${index % 2 === 0 ? 'mr-auto pr-20' : 'ml-auto pl-20'}`}>
+                <div className="relative group-hover:scale-[1.02] transition-all duration-500">
+                  
+                  {/* Glow Effect */}
+                  <div className={`absolute -inset-1 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
+                    event.timeInfo.isUpcoming 
+                      ? 'bg-gradient-to-r from-emerald-500/30 via-cyan-500/30 to-emerald-500/30' 
+                      : 'bg-gradient-to-r from-gray-500/20 via-gray-600/20 to-gray-500/20'
+                  }`}></div>
 
-                  <div className="text-center">
-                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-emerald-400 transition-colors">{event.title}</h3>
+                  {/* Main Card */}
+                  <div className="relative bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10 group-hover:border-emerald-400/50 transition-all duration-500 shadow-2xl">
+                    
+                    {/* Status Indicator Bar */}
+                    <div className={`absolute top-0 left-0 right-0 h-1 ${
+                      event.timeInfo.isUpcoming 
+                        ? 'bg-gradient-to-r from-emerald-400 via-cyan-400 to-emerald-400' 
+                        : 'bg-gradient-to-r from-gray-500 to-gray-600'
+                    }`}></div>
 
-                    <div className="text-lg text-gray-400 mb-4">{new Date(event.eventDate).toLocaleDateString()}</div>
+                    {/* Image Section */}
+                    <div className="relative h-56 overflow-hidden">
+                      <img
+                        src={event.image || event.images?.[0]}
+                        alt={event.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                      
+                      {/* Type Badge */}
+                      <div className="absolute top-4 left-4">
+                        <div className="px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-full text-xs font-mono text-emerald-400 border border-emerald-400/30">
+                          {event.type}
+                        </div>
+                      </div>
 
-                    <div className="flex items-center justify-center gap-3 mb-4">
-                      <div className={`px-4 py-2 rounded-full text-sm font-mono ${event.timeInfo.isUpcoming ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'}`}>{event.timeInfo.text}</div>
+                      {/* Status Badge */}
+                      <div className="absolute top-4 right-4">
+                        <div className={`px-3 py-1.5 backdrop-blur-md rounded-full text-xs font-bold ${
+                          event.timeInfo.isUpcoming
+                            ? 'bg-emerald-500/90 text-black border border-emerald-400'
+                            : 'bg-gray-600/90 text-white border border-gray-500'
+                        }`}>
+                          {event.timeInfo.isUpcoming ? '🚀 UPCOMING' : '📅 PAST'}
+                        </div>
+                      </div>
+                    </div>
 
-                      {event.timeInfo.isUpcoming && (
-                        <div className="flex gap-2 text-xs font-mono">
-                          <Countdown targetDate={event.eventDate} />
+                    {/* Content Section */}
+                    <div className="p-6 space-y-4">
+                      
+                      {/* Title */}
+                      <h3 className="text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors duration-300 leading-tight">
+                        {event.title}
+                      </h3>
+
+                      {/* Date & Location */}
+                      <div className="flex items-center gap-4 text-sm text-gray-400">
+                        <div className="flex items-center gap-2">
+                          <HiCalendar className="w-4 h-4 text-emerald-400" />
+                          <span>{new Date(event.eventDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                        </div>
+                        {event.location?.name && (
+                          <div className="flex items-center gap-2">
+                            <HiLocationMarker className="w-4 h-4 text-emerald-400" />
+                            <span>{event.location.name}</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Time Info & Countdown */}
+                      <div className="flex items-center gap-3 pt-2">
+                        <div className={`px-4 py-2 rounded-lg text-sm font-mono font-bold ${
+                          event.timeInfo.isUpcoming
+                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                            : 'bg-gray-600/20 text-gray-400 border border-gray-600/40'
+                        }`}>
+                          {event.timeInfo.text}
+                        </div>
+
+                        {event.timeInfo.isUpcoming && (
+                          <div className="flex-1">
+                            <Countdown targetDate={event.eventDate} />
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Visibility Rating */}
+                      {event.visibility && (
+                        <div className="flex items-center gap-2 pt-2">
+                          <HiEye className="w-4 h-4 text-emerald-400" />
+                          <div className="flex items-center gap-1">
+                            {[...Array(5)].map((_, i) => (
+                              <HiStar
+                                key={i}
+                                className={`w-3 h-3 ${
+                                  i < event.visibility!.rating ? 'text-emerald-400' : 'text-gray-600'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          <span className="text-xs text-gray-400 ml-1">Visibility</span>
                         </div>
                       )}
+
+                      {/* View Details CTA */}
+                      <div className="pt-2 flex items-center gap-2 text-emerald-400 group-hover:gap-3 transition-all duration-300">
+                        <span className="text-sm font-medium">View Details</span>
+                        <HiExternalLink className="w-4 h-4" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -395,28 +489,6 @@ export default function EventsPage() {
       </div>
 
       {/* Event Detail Modal */}
-      {selectedEvent && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setSelectedEvent(null)}></div>
-
-          <div className="relative bg-black border border-white/20 rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto modal-scroll">
-            <button onClick={() => setSelectedEvent(null)} className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors z-10">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-
-            <div className="p-8">
-              <div className="aspect-video bg-gray-800 rounded-lg mb-6 overflow-hidden">
-                <img src={selectedEvent.images?.[0] || selectedEvent.image} alt={selectedEvent.title} className="w-full h-full object-cover" />
-              </div>
-
-              <h2 className="text-3xl font-light text-white mb-4">{selectedEvent.title}</h2>
-              <div className="text-sm text-gray-400 mb-6">{new Date(selectedEvent.date).toLocaleDateString()} • {selectedEvent.type}</div>
-              <p className="text-gray-300 leading-relaxed">{selectedEvent.description}</p>
-            </div>
-          </div>
-        </div>
-      )}
-
       <EventModal event={selectedEvent} isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
   );
