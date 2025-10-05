@@ -152,19 +152,24 @@ export default function AdminPanel() {
       const [section, field] = name.split('.');
       setFormData(prev => {
         const sectionKey = section as keyof EventFormData;
-        const updatedSection = {
-          ...prev[sectionKey],
-          [field]: value
-        };
 
-        if (section === 'scientific' && field === 'magnitude') {
-          updatedSection[field] = value ? parseFloat(value) : undefined;
-        }
+        // safely treat nested section as a loose object for updates
+        const currentSection = (prev[sectionKey] as Record<string, any>) || {};
+
+        // coerce numeric magnitude to number
+        const parsedValue = section === 'scientific' && field === 'magnitude'
+          ? (value ? parseFloat(value) : undefined)
+          : value;
+
+        const updatedSection: Record<string, any> = {
+          ...currentSection,
+          [field]: parsedValue
+        };
 
         return {
           ...prev,
           [sectionKey]: updatedSection
-        };
+        } as EventFormData;
       });
     } else {
       setFormData(prev => ({
