@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SpaceY - How Healthy Does Your City Feel Today?",
-  description: "A modern dashboard showing the emotional health of cities through weather data and mood indicators",
-};
+  title: "SpaceY - Discover upcoming celestial events",
+  description: "Stay updated with real-time alerts for eclipses, meteor showers, and more.",
+};  
 
 export default function RootLayout({
   children,
